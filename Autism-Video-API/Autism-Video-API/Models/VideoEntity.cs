@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.CosmosDB.Table;
+using System.Xml.Serialization;
 
 namespace Autism_Video_API.Models
 {
@@ -12,8 +13,10 @@ namespace Autism_Video_API.Models
         public string EndTime { get; set; }
         public string FileName { get; set; }
 
-        public string MediaServiceUrl { get; set;}
+        public string BlobFileUrl { get; set;}
 
+        public string MediaServiceUrl { get; set; }
+                
         public VideoEntity() { }
 
         public VideoEntity(string partitionKey, string rowKey) : base(partitionKey, rowKey) { }
@@ -44,7 +47,45 @@ namespace Autism_Video_API.Models
             table.Execute(io);
         }
 
-        public void Update(string partitionKey, string rowKey, string url, string StorageConnectionString)
+        public void UpdateBlobUrl(string partitionKey, string rowKey, string url, string StorageConnectionString)
+        {
+            
+            var toUpdate = FetchForUpdate(partitionKey, rowKey, StorageConnectionString);
+            VideoEntity updateEntity = toUpdate.update;
+            var table = toUpdate.table;
+            if (updateEntity != null)
+            {
+                //Change the description
+                updateEntity.BlobFileUrl = url;
+
+                // Create the InsertOrReplace TableOperation
+                TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);
+
+                // Execute the operation.
+                table.Execute(insertOrReplaceOperation);
+            }
+        }
+
+        public void UpdateMediaServiceUrl(string partitionKey, string rowKey, string url, string StorageConnectionString)
+        {
+
+            var toUpdate = FetchForUpdate(partitionKey, rowKey, StorageConnectionString);
+            VideoEntity updateEntity = toUpdate.update;
+            var table = toUpdate.table;
+            if (updateEntity != null)
+            {
+                //Change the description
+                updateEntity.MediaServiceUrl = url;
+
+                // Create the InsertOrReplace TableOperation
+                TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);
+
+                // Execute the operation.
+                table.Execute(insertOrReplaceOperation);
+            }
+        }
+
+        private (CloudTable table, VideoEntity update) FetchForUpdate(string partitionKey, string rowKey, string StorageConnectionString)
         {
             string TableName = "Videos";
 
@@ -64,17 +105,9 @@ namespace Autism_Video_API.Models
             TableOperation retrieveOperation = TableOperation.Retrieve<VideoEntity>(partitionKey, rowKey);
             TableResult retrievedResult = table.Execute(retrieveOperation);
             VideoEntity updateEntity = (VideoEntity)retrievedResult.Result;
-            if(updateEntity != null)
-            {
-                //Change the description
-                updateEntity.MediaServiceUrl = url;
-
-                // Create the InsertOrReplace TableOperation
-                TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);
-
-                // Execute the operation.
-                table.Execute(insertOrReplaceOperation);
-            }
+            var retVal = (table, updateEntity);
+            return retVal;
         }
+
     }
 }
