@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaServiceUploadStream", "MediaServiceUploadStream.csproj", "{B87F653B-CC73-4091-9818-B1727B17AAFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B87F653B-CC73-4091-9818-B1727B17AAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87F653B-CC73-4091-9818-B1727B17AAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B87F653B-CC73-4091-9818-B1727B17AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87F653B-CC73-4091-9818-B1727B17AAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0A65D02-73FD-4E68-8536-D0276F65D564}
+	EndGlobalSection
+EndGlobal
