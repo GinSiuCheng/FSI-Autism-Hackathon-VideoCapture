@@ -12,8 +12,8 @@ namespace Autism_Video_API.Models
         public string EndTime { get; set; }
         public string FileName { get; set; }
 
-        public string MediaServiceUrl { get; set;}
-
+        public string BlobFileUrl { get; set;}
+                
         public VideoEntity() { }
 
         public VideoEntity(string partitionKey, string rowKey) : base(partitionKey, rowKey) { }
@@ -67,7 +67,7 @@ namespace Autism_Video_API.Models
             if(updateEntity != null)
             {
                 //Change the description
-                updateEntity.MediaServiceUrl = url;
+                updateEntity.BlobFileUrl = url;
 
                 // Create the InsertOrReplace TableOperation
                 TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);

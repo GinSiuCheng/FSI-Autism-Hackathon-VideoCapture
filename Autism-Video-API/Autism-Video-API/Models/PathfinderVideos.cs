@@ -38,7 +38,7 @@ namespace Autism_Video_API.Models
             var data = table.ExecuteQuery<VideoEntity>(query);
             foreach (var d in data)
             {
-                videos.Add(new PathfinderVideo(d.PartitionKey, d.RowKey, d.EndTime, d.FileName, d.MediaServiceUrl));
+                videos.Add(new PathfinderVideo(d.PartitionKey, d.RowKey, d.EndTime, d.FileName, d.BlobFileUrl));
             }
         }
 
