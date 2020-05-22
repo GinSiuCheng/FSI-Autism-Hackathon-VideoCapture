@@ -35,6 +35,12 @@ namespace Autism_Video_API.Models
             Update(this.PatientID, this.StartTime, blob.Uri.ToString(), storageConnectionString);
         }
 
+        internal void RegisterMediaServiceUrl(string storageConnectionString, string mediaserviceUrl)
+        {
+            UpdateMediaServiceUrl(this.PatientID, this.StartTime, mediaserviceUrl, storageConnectionString);
+        }
+
+
         public string FileName { get; set; }
         public string MediaServiceUrl { get; set; }
 
@@ -89,5 +95,14 @@ namespace Autism_Video_API.Models
             var ve = new VideoEntity();
             ve.UpdateBlobUrl(PatientID, StartTime, Url, StorageConnectionString);
         }
+
+        public void UpdateMediaServiceUrl(string PatientID, string StartTime, string Url, string StorageConnectionString)
+        {
+            var ve = new VideoEntity();
+            ve.UpdateMediaServiceUrl(PatientID, StartTime, Url, StorageConnectionString);
+        }
+
+
     }
+
 }
