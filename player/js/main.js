@@ -8,21 +8,37 @@ function takemethere(timeIndex) {
 
 function PopulateIndex() {
     // var objl = document.getElementById('listIndex');
-    markerObj.sort(function (obj1,obj2) {
+    markerObj.sort(function (obj1, obj2) {
         return obj1.time - obj2.time;
     });
-    for (var i = 0; i < markerObj.length; i++) {
-        var jobj = markerObj[i];
-        // var strl = '<li class="list-group-item"><a href="#" onclick="takemethere(' + jobj['time'] + ')">' + jobj['text'] + '</a></li>';
-        addIndex(jobj);
+    if (markerObj.length !== 0) {
+        var temp = JSON.stringify(markerObj);
+        console.log(temp);
+        // for (var i = 0; i < markerObj.length; i++) {
+        //     var jobj = markerObj[i];
+        //     // var strl = '<li class="list-group-item"><a href="#" onclick="takemethere(' + jobj['time'] + ')">' + jobj['text'] + '</a></li>';
+        //     addIndex(jobj);
+        // }
+        addIndex(temp);
     }
+
 }
 
 function addIndex(jobj) {
-    var strl = '<li class="list-group-item"><a href="#" id=' + jobj['time'] +
-        ' onclick="takemethere(' + jobj['time'] + ')">' +
-        convertSecsToTimeFormat(jobj['time']) + " - " + jobj['text'] + '</a></li>';
-    $('#listIndex').append(strl);
+    let val = JSON.parse(jobj);
+    console.log(val);
+    let template = [];
+    val.forEach((d,i)=>{
+        template.push(
+            '<li class="list-group-item"><a href="#" id=' + d['time'] +
+        ' onclick="takemethere(' + d['time'] + ')">' +
+        convertSecsToTimeFormat(d['time']) + " - " + d['text'] + '</a></li>'
+        );
+    })
+    var strl = '<li class="list-group-item"><a href="#" id=' + val[0]['time'] +
+        ' onclick="takemethere(' + val[0]['time'] + ')">' +
+        convertSecsToTimeFormat(val[0]['time']) + " - " + val[0]['text'] + '</a></li>';
+    $('#listIndex').append(template);
 }
 
 function populatePatients(patients) {
@@ -61,11 +77,11 @@ function postData() {
     };
     $.ajax({
         type: "POST",
-        url: "http://fsiautismny2.azurewebsites.net/api/Data",
+        url: "https://fsiautismny2.azurewebsites.net/api/Data",
         data: JSON.stringify(pdata),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(p) {
+        success: function (p) {
             console.log(p);
             addMarkpoint(secs);
             markerObj.push({
@@ -77,7 +93,7 @@ function postData() {
             cleanUPIndex();
             PopulateIndex();
         },
-        failure: function(errMsg) {
+        failure: function (errMsg) {
             alert(errMsg);
         }
     });
@@ -105,7 +121,7 @@ function initializeVideo(videoData) {
 }
 
 function cleanUPIndex() {
-        $('#listIndex').empty();
+    $('#listIndex').empty();
 }
 
 function GetVideos() {
@@ -120,7 +136,7 @@ function GetVideos() {
     // http://fsiautismny2.azurewebsites.net/api/VideosWithData?patientId=abc123&startTime=20180423000000&endTime=20180424000000
     $.ajax({
         type: "GET",
-        url: "http://fsiautismny2.azurewebsites.net/api/VideosWithData",
+        url: "https://fsiautismny2.azurewebsites.net/api/VideosWithData",
         data: {
             "patientId": patient.id,
             "startTime": startDate,
@@ -128,11 +144,11 @@ function GetVideos() {
         },
         // contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(result) {
+        success: function (result) {
             console.log(result);
             initializeVideo(result);
         },
-        failure: function(errMsg) {
+        failure: function (errMsg) {
             alert(errMsg);
         }
     });
@@ -187,14 +203,14 @@ $(document).ready(function functionName() {
     $('input[name="daterange"]').daterangepicker();
 
     populatePatients([{
-        id: "abc123",
-        name: "Drew"
+        id: "Ptn001",
+        name: "Ptn001"
     }, {
-        id: "2",
-        name: "Siddharth"
+        id: "Ptn002",
+        name: "Ptn002"
     }, {
-        id: "3",
-        name: "amulya"
+        id: "Ptn003",
+        name: "Ptn003"
     }, {
         id: "4",
         name: "Lambert"

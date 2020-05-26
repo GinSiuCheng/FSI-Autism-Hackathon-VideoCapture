@@ -27,6 +27,7 @@ namespace Autism_Video_API.Models
         public void Save(string StorageConnectionString)
         {
             var ee = new EventEntity(PatientID, TimeStamp, Skill, Target, Result, Comments, StorageConnectionString);
+            var me = new MarkerEntity(PatientID, TimeStamp, TimeStamp, Skill+","+Comments, StorageConnectionString);
         }
     }
 }
